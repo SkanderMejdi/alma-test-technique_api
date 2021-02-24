@@ -18,12 +18,13 @@ services:
         exclude:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
-            - '../src/Kernel.php'
             - '../src/Tests/'
 
-    App\Marketplace\:
-        resource: '../src/Marketplace/'
-
-    App\Marketplace\HomeController:
-        class: App\Marketplace\HomeController
+    # controllers are imported separately to make sure services can be injected
+    # as action arguments even if you don't extend any base controller class
+    App\Infrastructure\HealthCheck\HealthCheckController:
+        class: App\Infrastructure\HealthCheck\HealthCheckController
         tags: ['controller.service_arguments']
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
