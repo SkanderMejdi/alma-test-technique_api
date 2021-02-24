@@ -10,7 +10,7 @@ $ make init # Create default env file
 Add to your `/etc/hosts` file the following line
 
 ```
-127.0.0.1 alma-test-technique.com www.alma-test-technique
+127.0.0.1 services.alma-test-technique.com www.services.alma-test-technique
 ```
 
 ## Launch project

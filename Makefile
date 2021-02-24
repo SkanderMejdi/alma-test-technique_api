@@ -1,10 +1,8 @@
 PHP_EXEC := docker-compose exec -T php
-PHP_TARGET := alma-test-technique_php
-NGINX_TARGET := alma-test-technique_nginx
+TARGET := alma-test-technique_api
  
 build:
-	docker build -t $(PHP_TARGET) -f infra/php/Dockerfile .
-	docker build -t $(NGINX_TARGET) -f infra/nginx/Dockerfile .
+	docker build -t $(TARGET) .
 
 init:
 	cp .env.dist .env
@@ -19,4 +17,7 @@ database:
 	$(PHP_EXEC) bin/console doctrine:schema:update
 
 stop:
-	docker-compose down --volumes --remove-orphans
+	docker-compose down --volumes
+
+test:
+	APP_ENV=test docker-compose -f docker-compose.test.yml run php vendor/bin/behat -vvv
