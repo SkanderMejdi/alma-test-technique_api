@@ -3,6 +3,7 @@ default:
         default:
             contexts:
                 - App\Tests\Behat\Infrastructure\HealthCheckContext:
+                - App\Tests\Behat\Product\ProductContext:
 
     extensions:
         FriendsOfBehat\SymfonyExtension: 
