@@ -1,0 +1,41 @@
+version:  '3.8'
+services:
+  mysql:
+    image: mysql:8.0.22
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: alma-test-technique
+
+  php:
+    image: alma-test-technique_php
+    depends_on:
+      - "mysql"
+    volumes:
+      - './:/var/www'
+    env_file:
+      - .env
+
+  nginx:
+    image: alma-test-technique_nginx
+    depends_on:
+      - "mysql"
+      - "php"
+      - "react-watcher"
+    volumes:
+      - './infra/nginx/nginx.conf:/etc/nginx/nginx.conf'
+      - './public/build:/usr/share/nginx/html/build'
+    ports:
+      - '80:80'
+
+  react-watcher:
+    build:
+      dockerfile: './infra/nginx/Dockerfile'
+      context: '.'
+      target: app-builder
+      cache_from:
+        - "alma-test-technique_nginx"
+    volumes:
+      - './public/build:/app/public/build'
+      - './assets:/app/assets'
+    command:
+      'yarn build --watch'
