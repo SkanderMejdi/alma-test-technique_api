@@ -20,11 +20,17 @@ services:
             - '../src/Entity/'
             - '../src/Tests/'
 
-    # controllers are imported separately to make sure services can be injected
-    # as action arguments even if you don't extend any base controller class
-    App\Infrastructure\HealthCheck\HealthCheckController:
-        class: App\Infrastructure\HealthCheck\HealthCheckController
-        tags: ['controller.service_arguments']
+    alma_client:
+        class: GuzzleHttp\Client
+        arguments:
+            -
+                base_uri: http://alma:5000/
 
+    alma_payment_method:
+        class: App\Infrastructure\Payment\AlmaPaymentMethod
+        arguments:
+            - '@alma_client'
+
+    App\Domain\Payment\PaymentMethod: '@alma_payment_method'
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
