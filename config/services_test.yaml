@@ -5,3 +5,8 @@ services:
 
     App\Tests\Behat\:
         resource: '../tests/Behat/*'
+
+    fake_payment_method:
+        class: App\Tests\Behat\Basket\FakePaymentMethod
+
+    App\Domain\Payment\PaymentMethod: '@fake_payment_method'
