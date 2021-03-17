@@ -6,6 +6,8 @@ use App\Domain\Payment\PaymentMethod;
 
 final class BasketService
 {
+    private const DEFAULT_INSTALLMENT_COUNT = [1, 3, 5];
+
     public PaymentMethod $paymentMethod;
 
     public function __construct(PaymentMethod $paymentMethod)
@@ -13,13 +15,13 @@ final class BasketService
         $this->paymentMethod = $paymentMethod;
     }
 
-    public function isEligibleForMultiplePayment(Basket $basket, array $wantedInstallmentCounts = [3]): bool
+    public function multiplePaymentOption(Basket $basket, ?array $wantedInstallmentCounts = null): array
     {
         $possibleInstallment = $this->paymentMethod->getPossibleInstallment(
             $basket->getAmount(),
-            $wantedInstallmentCounts
+            $wantedInstallmentCounts ?: self::DEFAULT_INSTALLMENT_COUNT
         );
 
-        return $possibleInstallment[0]['eligible'];
+        return $possibleInstallment;
     }
 }

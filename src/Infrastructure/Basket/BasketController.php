@@ -20,13 +20,13 @@ final class BasketController extends AbstractController
         $this->basketService = $basketService;
     }
 
-    public function checkMultiplePaymentEligibility(string $uuidAsString): Response
+    public function checkMultiplePaymentOption(string $uuidAsString): Response
     {
         $uuid = Uuid::fromString($uuidAsString);
         $basket = $this->basketRepository->findOne($uuid);
 
-        return $this->json([
-            'eligibility' => $this->basketService->isEligibleForMultiplePayment($basket) 
-        ]);
+        return $this->json(
+            $this->basketService->multiplePaymentOption($basket) 
+        );
     }
 }

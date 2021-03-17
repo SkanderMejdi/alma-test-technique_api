@@ -13,6 +13,7 @@ use Symfony\Component\HttpKernel\KernelInterface;
 final class BasketContext implements Context
 {
     const MULTIPLE_PAYMENT_ELIGIBILITY_PATH = '/basket/7a711f94-79f6-4422-b171-3efe73689cf2/check-multiple-payment-eligibility';
+    const MULTIPLE_PAYMENT_OPTION_PATH = '/basket/7a711f94-79f6-4422-b171-3efe73689cf2/check-multiple-payment-option';
 
     /** @var Response|null */
     private $response;
@@ -43,5 +44,25 @@ final class BasketContext implements Context
         $decodedResponse = \json_decode($this->response->getContent());
         Assert::notEmpty($decodedResponse);
         Assert::eq($decodedResponse->eligibility, 'ok');
+    }
+    
+    /**
+     * @When I want to check my different payment option for my basket
+     */
+    public function whenIWanttoCheckMyDifferentPaymentOptionForMyBasket(): void
+    {
+        $this->response = $this->kernel->handle(
+            Request::create(self::MULTIPLE_PAYMENT_OPTION_PATH, 'GET')
+        );
+    }
+
+    /**
+     * @Then I see my payment option
+     */
+    public function thenISeeMyPaymentOption(): void
+    {
+        $decodedResponse = \json_decode($this->response->getContent());
+        Assert::notEmpty($decodedResponse);
+        Assert::count($decodedResponse, 3);
     }
 }

@@ -2,6 +2,6 @@ healthcheck:
     path: /healthcheck
     controller: App\Infrastructure\HealthCheck\HealthCheckController
 
-basket-check-multiple-payment-eligibility:
-    path: /basket/{uuidAsString}/check-multiple-payment-eligibility
-    controller: App\Infrastructure\Basket\BasketController::checkMultiplePaymentEligibility
+basket-check-multiple-payment-option:
+    path: /basket/{uuidAsString}/check-multiple-payment-option
+    controller: App\Infrastructure\Basket\BasketController::checkMultiplePaymentOption
