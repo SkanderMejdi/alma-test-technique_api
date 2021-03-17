@@ -10,3 +10,10 @@ services:
         class: App\Tests\Behat\Basket\FakePaymentMethod
 
     App\Domain\Payment\PaymentMethod: '@fake_payment_method'
+
+    # alma_payment_method:
+    #     class: App\Infrastructure\Payment\AlmaPaymentMethod
+    #     arguments:
+    #         - '@alma_client'
+
+    # App\Domain\Payment\PaymentMethod: '@alma_payment_method'

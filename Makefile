@@ -20,4 +20,4 @@ stop:
 	docker-compose down --volumes
 
 test:
-	APP_ENV=test docker-compose -f docker-compose.test.yml run php vendor/bin/behat -vvv
+	APP_ENV=test docker-compose -f docker-compose.test.yml run --rm php vendor/bin/behat -vvv
