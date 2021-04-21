@@ -14,6 +14,7 @@ final class BasketContext implements Context
 {
     const MULTIPLE_PAYMENT_ELIGIBILITY_PATH = '/basket/7a711f94-79f6-4422-b171-3efe73689cf2/check-multiple-payment-eligibility';
     const MULTIPLE_PAYMENT_OPTION_PATH = '/basket/7a711f94-79f6-4422-b171-3efe73689cf2/check-multiple-payment-option';
+    const CREATE_PAYMENT_PATH = '/basket/7a711f94-79f6-4422-b171-3efe73689cf2/create-payment';
 
     /** @var Response|null */
     private $response;
@@ -64,5 +65,26 @@ final class BasketContext implements Context
         $decodedResponse = \json_decode($this->response->getContent());
         Assert::notEmpty($decodedResponse);
         Assert::count($decodedResponse, 3);
+    }
+
+    /**
+     * @When I want to create a payment for my basket
+     */
+    public function whenIWantToCreateAPaymentForMyBasket()
+    {
+        $this->response = $this->kernel->handle(
+            Request::create(self::CREATE_PAYMENT_PATH . '/3', 'POST')
+        );
+    }
+
+    /**
+     * @Then I see my payment information
+     */
+    public function thenISeeMyPaymentInformation()
+    {
+        $decodedResponse = \json_decode($this->response->getContent(), true);
+        Assert::notEmpty($decodedResponse);
+        Assert::eq($decodedResponse['payment']['state'], 'not_started');
+        Assert::eq($decodedResponse['payment']['return_url'], 'fake-url.com');
     }
 }
