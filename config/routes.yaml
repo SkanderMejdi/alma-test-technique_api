@@ -5,3 +5,7 @@ healthcheck:
 basket-check-multiple-payment-option:
     path: /basket/{uuidAsString}/check-multiple-payment-option
     controller: App\Infrastructure\Basket\BasketController::checkMultiplePaymentOption
+
+basket-create-payment:
+    path: /basket/{uuidAsString}/create-payment/{chosenInstallmentCount}
+    controller: App\Infrastructure\Basket\BasketController::createPayment
